@@ -1,0 +1,5 @@
+version 0.1a (22.12.2013)
+=========================
+*	splitted code into main, game, mouse, graphics
+*	colorFromRGB() now uses 3 floats as parameter
+	(parsing strings was to slow?)

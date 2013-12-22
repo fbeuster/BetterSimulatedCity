@@ -1,0 +1,6 @@
+version 0.1a (22.12.2013)
+=========================
++	added game field
++	added basic HUD (information in it are from old ideas)
+*	game cells change color one mouse enter
+	(buggy in some cases)
