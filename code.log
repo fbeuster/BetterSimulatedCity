@@ -1,3 +1,12 @@
+version 0.2a (22.12.2013)
+=========================
+*	fixed colorCell() bugs
++	added isInCell()
++	added some conditions in mouseMov()
+*	moved *.c and *.h to src/
++	added Makefile to repository
++	added a bunch of code documentation (doxygen optimized)
+
 version 0.1a (22.12.2013)
 =========================
 *	splitted code into main, game, mouse, graphics

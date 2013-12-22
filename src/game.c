@@ -1,3 +1,7 @@
+/**
+\file
+\brief implementation of all gaming function defined in game.h
+*/
 #include <GL/glut.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,39 +10,85 @@
 
 /*** interaction ***/
 
+/**
+ * This function increases the rotation speed an check against a limit.
+ */
 void speedUp() {
 	if(speed < 5.0f) {
 		speed += 1.0f;
 	}	
 }
 
+/**
+ * This function decreases the rotation speed an check against a limit.
+ */
 void speedDown() {
 	if(speed > 1.0f) {
 		speed -= 1.0f;
 	}
 }
 
+/**
+ * This function flips the rotation direction.
+ */
 void directionChange() {
 	dir = dir * -1;
 }
 
 /*** game ***/
 
+/**
+ * This function checks, wether the given coordinates are in a cell or not.
+ *
+ * \param x
+ * \param y
+ *
+ * \returns 1 if it is in cell, else 0
+ */
+int isInCell(int x, int y) {
+	if(x > 0 && y > 0) {
+		y = windowHeight - hudHeight - y;
+		if(x % (cellWidth + 1) > 0 && x <= (cellWidth + 1) * gameCols &&
+			y % (cellHeigth + 1) > 0 && y <= (cellHeigth + 1) * gameRows) {
+			return 1;
+		}
+	}
+	return 0;
+}
+/**
+ * This function set the color of a cell.
+ *
+ * \note
+ * Mouse (0,0) is the the top left corner, while render (0,0) is in
+ * the bottom left corner.
+ *
+ * \param x horizontal position of the mouse
+ * \param y vertical position of the mouse
+ */
 void colorCell(int x, int y) {
-	int cellX = x / 25;
-	int cellY = (500 - y) / 25;
+	int cellX = x / (cellWidth + 1);
+	int cellY = (windowHeight - hudHeight - y) / (cellHeigth + 1);
 	cells[cellX][cellY] = "10000";
 }
 
+/**
+ * This function realizes the basic game setup. Such as size calculation and
+ * generating the game field data.
+ *
+ * \param gc game field columns
+ * \param gr game field rows
+ */
 void gameSetup(int gc, int gr) {
 	// setup game field
 	gameCols = gc;
 	gameRows = gr;
+	cellWidth = 25;
+	cellHeigth = 25;
 
 	// size up window
 	hudHeight = 80.0;
-	windowWidth = (25 + 1) * gameCols + 1;
-	windowHeight = (25 + 1) * gameRows + 1 + hudHeight;
+	windowWidth = (cellWidth + 1) * gameCols + 1;
+	windowHeight = (cellHeigth + 1) * gameRows + 1 + hudHeight;
 
 	speed = 1;
 	dir = 1;
@@ -62,6 +112,9 @@ void gameSetup(int gc, int gr) {
 	cellColors[1][2] = 0;
 }
 
+/**
+ * This function is rendering the HUD area and filling it with text information.
+ */
 void gameText() {
 
 	// text area background
@@ -71,8 +124,8 @@ void gameText() {
 	// text
 	colorFromRGB(16, 16, 16);
 
-    char speedBuff[8];
-    sprintf(speedBuff, "Speed: %d",speed);
+    char speedBuff[30];
+    sprintf(speedBuff, "Mouse:");
 
     char dirBuff[16];
     if(dir == 1) {
@@ -81,12 +134,16 @@ void gameText() {
     	sprintf(dirBuff, "Direction: %s", "right");
     }
 
-    glRasterPos2i(10, hudHeight/2);
+    glRasterPos2i(10, hudHeight / 2);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, speedBuff);
     glRasterPos2i(10, 10);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, dirBuff);
 }
 
+/**
+ * The basic game loop for drawing all elements on the game field and
+ * calling the HUD.
+ */
 void gameLoop() {
 	// init
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
