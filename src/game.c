@@ -38,23 +38,25 @@ void directionChange() {
 /*** game ***/
 
 /**
- * This function checks, wether the given coordinates are in a cell or not.
+ * This function checks, wether the mouse in in the given cell or not.
  *
- * \param x
- * \param y
+ * \param cx cell column
+ * \param cy cell row
  *
  * \returns 1 if it is in cell, else 0
  */
-int isInCell(int x, int y) {
-	if(x > 0 && y > 0) {
-		y = windowHeight - hudHeight - y;
-		if(x % (cellWidth + 1) > 0 && x <= (cellWidth + 1) * gameCols &&
-			y % (cellHeigth + 1) > 0 && y <= (cellHeigth + 1) * gameRows) {
-			return 1;
+int isInCell(int cx, int cy) {
+	if(mouseX > 0 && mouseY > 0) {
+		if(mouseX > (cellWidth + 1) * cx && mouseX <= (cellWidth + 1) * (cx + 1) &&
+			mouseY > (cellHeigth + 1) * cy && mouseY <= (cellHeigth + 1) * (cy + 1)) {
+			if(mouseOverWindow) {
+				return 1;
+			}
 		}
 	}
 	return 0;
 }
+
 /**
  * This function set the color of a cell.
  *
@@ -65,10 +67,10 @@ int isInCell(int x, int y) {
  * \param x horizontal position of the mouse
  * \param y vertical position of the mouse
  */
-void colorCell(int x, int y) {
+void colorCell(int x, int y, char c) {
 	int cellX = x / (cellWidth + 1);
 	int cellY = (windowHeight - hudHeight - y) / (cellHeigth + 1);
-	cells[cellX][cellY] = "10000";
+	cells[cellX][cellY][0] = c;
 }
 
 /**
@@ -84,6 +86,9 @@ void gameSetup(int gc, int gr) {
 	gameRows = gr;
 	cellWidth = 25;
 	cellHeigth = 25;
+	mouseX = 0;
+	mouseY = 0;
+	mouseOverWindow = 0;
 
 	// size up window
 	hudHeight = 80.0;
@@ -98,7 +103,7 @@ void gameSetup(int gc, int gr) {
 	int m,n;
 	for(m = 0; m < gameCols; m++) {
 		for(n = 0; n < gameRows; n++) {
-			cells[m][n] = "00000";
+			strcpy(cells[m][n], "00000");
 		}
 	}
 
@@ -162,6 +167,11 @@ void gameLoop() {
 	int m,n;
 	for(m = 0; m < gameCols; m++) {
 		for(n = 0; n < gameRows; n++) {
+			if(!isInCell(m, n)) {
+				cells[m][n][0] = '0';
+			} else {
+				cells[m][n][0] = '1';
+			}
 			colorFromRGB(
 				cellColors[ cells[m][n][0] - 48 ][0],
 				cellColors[ cells[m][n][0] - 48 ][1],

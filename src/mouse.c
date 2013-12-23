@@ -43,8 +43,19 @@ void mouse(int btn, int state, int x, int y) {
 void mouseMove(int x, int y) {
 	if(x >= 0 && x <= windowWidth &&
 		y >= 0 && y <= windowHeight - hudHeight) {
-		if(isInCell(x,y)) {
-			colorCell(x,y);
-		}
+		mouseX = x;
+		mouseY = windowHeight - hudHeight - y;
+	} else {
+		mouseX = 0;
+		mouseY = 0;
 	}
+}
+
+/**
+ * This function handles leaving/entering of the mouse in the window.
+ *
+ * \param state The GLUT state (_ENTERED or _LEFT)
+ */
+void mouseLeaveEnter(int state) {
+	mouseOverWindow = state;
 }

@@ -1,3 +1,12 @@
+version 0.3a (23.12.2013)
+=========================
+*	isInCell() now tests a given cell with mouse position
++	added mouseEnterLeave() to handle exactly that
+*	mouseMove() now just set global positions
+*	colorCell() is untouched but not used at the moment
++	added cell coloring to gameLoop()
++	bind mouseEnterLeave in main.c
+
 version 0.2a (22.12.2013)
 =========================
 *	fixed colorCell() bugs

@@ -51,5 +51,6 @@ int main(int argc, char **argv) {
 	glutTimerFunc(delay, timer, 0);
 	glutMouseFunc(mouse);
     glutPassiveMotionFunc(mouseMove);
+    glutEntryFunc(mouseLeaveEnter);
 	glutMainLoop();
 }

@@ -1,3 +1,9 @@
+version 0.3a (23.12.2013)
+=========================
+*	cell color change now only affect current cell
+*	code improvements
+*	documentation
+
 version 0.2a (22.12.2013)
 =========================
 *	fixed color change bugs
