@@ -140,9 +140,9 @@ void gameText() {
     }
 
     glRasterPos2i(10, hudHeight / 2);
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, speedBuff);
+	//glutBitmapString(GLUT_BITMAP_HELVETICA_18, speedBuff);
     glRasterPos2i(10, 10);
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, dirBuff);
+	//glutBitmapString(GLUT_BITMAP_HELVETICA_18, dirBuff);
 }
 
 /**
