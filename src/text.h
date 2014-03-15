@@ -1,0 +1,1 @@
+void bscString2d(float, float, void*, char*);

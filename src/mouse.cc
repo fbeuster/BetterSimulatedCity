@@ -59,3 +59,11 @@ void mouseMove(int x, int y) {
 void mouseLeaveEnter(int state) {
 	mouseOverWindow = state;
 }
+
+/*int getMouseX() {
+	return mouseX;
+}
+
+int getMouseY() {
+	return mouseY;
+}*/

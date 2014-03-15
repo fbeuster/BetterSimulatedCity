@@ -6,7 +6,25 @@
 #include <stdio.h>
 #include <string.h>
 #include "graphics.h"
+#include "text.h"
 #include "game.h"
+
+int windowWidth;
+int windowHeight;	
+int hudHeight;
+int gameCols;
+int gameRows;
+int cellWidth;
+int cellHeigth;
+char cells[20][20][5];
+int cellColors[10][3];
+int mouseX;
+int mouseY;
+int mouseOverWindow;
+
+int speed;
+int dir;
+int deg;
 
 /*** interaction ***/
 
@@ -120,7 +138,7 @@ void gameSetup(int gc, int gr) {
 /**
  * This function is rendering the HUD area and filling it with text information.
  */
-void gameText() {
+void gameHUD() {
 
 	// text area background
 	colorFromRGB(244, 244, 244);
@@ -139,10 +157,9 @@ void gameText() {
     	sprintf(dirBuff, "Direction: %s", "right");
     }
 
-    glRasterPos2i(10, hudHeight / 2);
-	//glutBitmapString(GLUT_BITMAP_HELVETICA_18, speedBuff);
-    glRasterPos2i(10, 10);
-	//glutBitmapString(GLUT_BITMAP_HELVETICA_18, dirBuff);
+    char *str = "Text";
+    bscString2d(10, hudHeight / 2, GLUT_BITMAP_HELVETICA_18, str);
+    bscString2d(10, 10, GLUT_BITMAP_HELVETICA_18, str);
 }
 
 /**
@@ -165,12 +182,15 @@ void gameLoop() {
 	rectangle(0.0,hudHeight,windowWidth,windowHeight);
 
 	int m,n;
+	int cx,cy;
 	for(m = 0; m < gameCols; m++) {
 		for(n = 0; n < gameRows; n++) {
 			if(!isInCell(m, n)) {
 				cells[m][n][0] = '0';
 			} else {
 				cells[m][n][0] = '1';
+				cx = m;
+				cy = n;
 			}
 			colorFromRGB(
 				cellColors[ cells[m][n][0] - 48 ][0],
@@ -182,7 +202,15 @@ void gameLoop() {
 		}
 	}
 
-    gameText();
+	// hover text
+	if(isInCell(cx,cy)) {
+		colorFromRGB(255,255,255);
+		rectangle(
+		cx * 26.0 + 1, (cy-1) * 26.0 + 6 + hudHeight,
+		cx * 26.0 + 1 + 100, (cy-1) * 26.0 + 6 + 25 + hudHeight);
+	}
+
+    gameHUD();
 
 	glFlush();
 }

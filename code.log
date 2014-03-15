@@ -1,3 +1,9 @@
+version 0.5a (15.03.2014)
+=========================
++	new white rectangle for hover (in gameLoop())
++	declared variables from game.h in game.h, which fixed a compiler bug
++	text.* provide text functions
+
 version 0.4a (27.12.2013)
 =========================
 *	switched from C to C++

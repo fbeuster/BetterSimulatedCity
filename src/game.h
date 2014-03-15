@@ -17,6 +17,11 @@ extern int mouseX;				/**< \brief current mouse postion X */
 extern int mouseY;				/**< \brief current mouse postion y */
 extern int mouseOverWindow;	/**< \brief mouse in window (1 or 0) */
 
+/*** some old stuff ***/
+extern int speed;	/**< \brief rotation speed */
+extern int dir;	/**< \brief rotation direction */
+extern int deg;	/**< \brief rotation angle */
+
 /*** some old functions ***/
 void speedUp();			/**< \brief increase speed */
 void speedDown();		/**< \brief decrease speed */
@@ -28,8 +33,3 @@ void colorCell(int, int, char);	/**< \brief Set the color of a cell */
 void gameSetup(int, int);	/**< \brief A basic game setup */
 void gameText();			/**< \brief Render HUD */
 void gameLoop();			/**< \brief The basic game render loop */
-
-/*** some old stuff ***/
-extern int speed;	/**< \brief rotation speed */
-extern int dir;	/**< \brief rotation direction */
-extern int deg;	/**< \brief rotation angle */

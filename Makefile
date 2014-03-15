@@ -1,15 +1,20 @@
 .PHONY: clean
 
-OBJECTS := src/main.o src/game.o src/mouse.o src/graphics.o
+CXXFLAGS = -g -Wall -ansi -pedantic
+LIBS = -lGL -lglut -lGLU
+CXX = g++
+LDFLAGS = -lm
+
+OBJECTS = src/graphics.o src/text.o src/game.o src/mouse.o src/main.o
 
 all: BetterSimCity
 
 BetterSimCity: $(OBJECTS)
-	$(CXX) $(LDFLAGS) -lGL -lGLU -lglut -ansi -pedantic $^ -o $@
+	$(CXX) $(CXXFLAGS) $(LIBS) $^ $(LDFLAGS) -o $@
 
-mouse.o: game.h
-game.o: graphics.h
+mouse.o: mouse.h game.h
+game.o: game.h graphics.h text.h
 main.o: mouse.h game.h
 
 clean:
-	$(RM) $(OBJECTS)
+	$(RM) $(OBJECTS) BetterSimCity
