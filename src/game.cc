@@ -15,7 +15,7 @@ int hudHeight;
 int gameCols;
 int gameRows;
 int cellWidth;
-int cellHeigth;
+int cellHeight;
 char cells[20][20][5];
 int cellColors[10][3];
 int mouseX;
@@ -66,7 +66,7 @@ void directionChange() {
 int isInCell(int cx, int cy) {
 	if(mouseX > 0 && mouseY > 0) {
 		if(mouseX > (cellWidth + 1) * cx && mouseX <= (cellWidth + 1) * (cx + 1) &&
-			mouseY > (cellHeigth + 1) * cy && mouseY <= (cellHeigth + 1) * (cy + 1)) {
+			mouseY > (cellHeight + 1) * cy && mouseY <= (cellHeight + 1) * (cy + 1)) {
 			if(mouseOverWindow) {
 				return 1;
 			}
@@ -87,7 +87,7 @@ int isInCell(int cx, int cy) {
  */
 void colorCell(int x, int y, char c) {
 	int cellX = x / (cellWidth + 1);
-	int cellY = (windowHeight - hudHeight - y) / (cellHeigth + 1);
+	int cellY = (windowHeight - hudHeight - y) / (cellHeight + 1);
 	cells[cellX][cellY][0] = c;
 }
 
@@ -103,7 +103,7 @@ void gameSetup(int gc, int gr) {
 	gameCols = gc;
 	gameRows = gr;
 	cellWidth = 25;
-	cellHeigth = 25;
+	cellHeight = 25;
 	mouseX = 0;
 	mouseY = 0;
 	mouseOverWindow = 0;
@@ -111,7 +111,7 @@ void gameSetup(int gc, int gr) {
 	// size up window
 	hudHeight = 80.0;
 	windowWidth = (cellWidth + 1) * gameCols + 1;
-	windowHeight = (cellHeigth + 1) * gameRows + 1 + hudHeight;
+	windowHeight = (cellHeight + 1) * gameRows + 1 + hudHeight;
 
 	speed = 1;
 	dir = 1;
@@ -148,7 +148,7 @@ void gameHUD() {
 	colorFromRGB(16, 16, 16);
 
     char speedBuff[30];
-    sprintf(speedBuff, "Mouse:");
+    sprintf(speedBuff, "Speed: %i", speed);
 
     char dirBuff[16];
     if(dir == 1) {
@@ -157,9 +157,8 @@ void gameHUD() {
     	sprintf(dirBuff, "Direction: %s", "right");
     }
 
-    char *str = "Text";
-    bscString2d(10, hudHeight / 2, GLUT_BITMAP_HELVETICA_18, str);
-    bscString2d(10, 10, GLUT_BITMAP_HELVETICA_18, str);
+    bscString2d(10, hudHeight / 2, GLUT_BITMAP_HELVETICA_18, dirBuff);
+    bscString2d(10, 10, GLUT_BITMAP_HELVETICA_18, speedBuff);
 }
 
 /**
@@ -205,9 +204,30 @@ void gameLoop() {
 	// hover text
 	if(isInCell(cx,cy)) {
 		colorFromRGB(255,255,255);
-		rectangle(
-		cx * 26.0 + 1, (cy-1) * 26.0 + 6 + hudHeight,
-		cx * 26.0 + 1 + 100, (cy-1) * 26.0 + 6 + 25 + hudHeight);
+
+		int cHb = cellHeight + 1; // cellHeight + border
+		int xl = cx * cHb;
+		int yl = (cy-1) * cHb + 1 + hudHeight;
+		int xr = xl + 120;
+		int yr = yl + 25;
+
+		int diffX = windowWidth - xr;
+		if(diffX < 0) {
+			xl = xl + diffX;
+			xr = xr + diffX;
+		}
+		if(yl < hudHeight) {
+			yl = yl + 2 * cHb;
+			yr = yr + 2 * cHb;
+		}
+		
+		rectangle(xl, yl, xr, yr);
+
+		colorFromRGB(16,16,16);
+
+    	char str[16];
+		sprintf(str, "X: %d - Y: %d", cx, cy);
+		bscString2d(xl, yl + 5, GLUT_BITMAP_HELVETICA_18, str);
 	}
 
     gameHUD();

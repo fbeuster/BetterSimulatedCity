@@ -1,3 +1,10 @@
+version 0.6a (15.03.2014)
+=========================
+*	game.cc: small text changes in gameHUD()
+*	game.cc: gameLoop() hover rectangle shows coordinates
+*	game.cc: consistent use of cellHeight
+*	game.cc: gameLoop() boundery check of hover rectangle
+
 version 0.5a (15.03.2014)
 =========================
 +	new white rectangle for hover (in gameLoop())
